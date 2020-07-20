@@ -77,38 +77,80 @@ function clearStatusClass(element) {
   element.classList.remove('correct')
   element.classList.remove('wrong')
 }
-
+// Quiz Questions
 const questions = [
   {
-    question: 'What is 2 + 2?',
+    question: 'Inside which HTML element do we put the JavaScript?',
     answers: [
-      { text: '4', correct: true },
-      { text: '22', correct: false }
+      { text: '<js>', correct: false },
+      { text: '<scripting>', correct: false },
+      { text: '<script>', correct: true },
+      { text: 'javascript>', correct: false }
     ]
   },
   {
-    question: 'Who is the best YouTuber?',
+    question: 'Using _______ statement is how you test for a specific condition',
     answers: [
-      { text: 'Web Dev Simplified', correct: true },
-      { text: 'Traversy Media', correct: true },
-      { text: 'Dev Ed', correct: true },
-      { text: 'Fun Fun Function', correct: true }
+      { text: 'Select', correct: false },
+      { text: 'If', correct: true },
+      { text: 'Switch', correct: false },
+      { text: 'For', correct: false }
     ]
   },
   {
     question: 'Is web development fun?',
     answers: [
-      { text: 'Kinda', correct: false },
-      { text: 'YES!!!', correct: true },
-      { text: 'Um no', correct: false },
-      { text: 'IDK', correct: false }
+      { text: 'Absolutely', correct: true },
+      { text: 'OMG YES!!!', correct: true },
+      { text: 'A little bit', correct: true},
+      { text: 'Not one bit', correct: true }
     ]
   },
   {
-    question: 'What is 4 * 2?',
+    question: 'Is it possible to nest function in JavaScript?',
     answers: [
-      { text: '6', correct: false },
-      { text: '8', correct: true }
+      { text: 'True', correct: true },
+      { text: 'False', correct: false }
     ]
-  }
+  },
+  {
+    question: 'What are variables used for in JavaScript Programs?',
+    answers: [
+      { text: 'Storing, numbers, dates, or other values', correct: true },
+      { text: 'Varying randomly', correct: false },
+      { text: 'Causing high-school algebra flashbacks', correct: false},
+      { text: 'None of the above', correct: false}
+    ]
+  },
 ]
+
+//Timer Element
+  // var count = 30;
+  // var interval = setInterval(function(){
+  //  document.getElementById('timer').innerHTML=count;
+  //   count--;
+  //   if (count === 0){
+  //    clearInterval(interval);
+  //    document.getElementById('timer').innerHTML='Times';
+  //    // or...
+  //    alert("You're out of time! Please restart");
+  //   }
+  // }, 1000);
+
+  //Timer Element 2
+  var count = 30;
+  var timeIntervalUp;
+
+    function startTimer(){ 
+         	 timeIntervalUp = setInterval(function(){countTimer()}, 1000);
+   }
+   function countTimer() {
+            document.getElementById("timer").innerHTML = "Time Remaining: " + count;
+            count--;
+			
+             if (count == 0) {
+                clearInterval(timeIntervalUp);
+                document.getElementById('timer').innerHTML='Times';
+                alert("You're out of time! Please restart");
+            }
+        }
