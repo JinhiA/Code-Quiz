@@ -4,27 +4,38 @@ const nextButton = document.getElementById('next-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
+const resultsButton = document.getElementById('results')
+const resultsContainerElement = document.getElementById('results-container')
 
 let shuffledQuestions, currentQuestionIndex
 
+let countRightAnswers = 0;
+
+//User to click start to begin quiz
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
   currentQuestionIndex++
   setNextQuestion()
 })
+resultsButton.addEventListener('click', () => {
+  alert('You have ' + countRightAnswers + ' correct answers!')
+})
 
+// to reset the counter after the test started
 function startGame() {
+  countRightAnswers = 0; 
   gameIntro.classList.add('hide')
   startButton.classList.add('hide')
-  shuffledQuestions = questions.sort(() => Math.random() - .5)
+  nextQuestions = questions.sort(() => Math.random() - .5)
   currentQuestionIndex = 0
   questionContainerElement.classList.remove('hide')
   setNextQuestion()
 }
 
+//function to rotate through questions
 function setNextQuestion() {
   resetState()
-  showQuestion(shuffledQuestions[currentQuestionIndex])
+  showQuestion(nextQuestions[currentQuestionIndex])
 }
 
 function showQuestion(question) {
@@ -44,11 +55,13 @@ function showQuestion(question) {
 function resetState() {
   clearStatusClass(document.body)
   nextButton.classList.add('hide')
+  resultsButton.classList.add('hide')
   while (answerButtonsElement.firstChild) {
     answerButtonsElement.removeChild(answerButtonsElement.firstChild)
   }
 }
 
+//Check answers and gather score
 function selectAnswer(e) {
   const selectedButton = e.target
   const correct = selectedButton.dataset.correct
@@ -56,27 +69,35 @@ function selectAnswer(e) {
   Array.from(answerButtonsElement.children).forEach(button => {
     setStatusClass(button, button.dataset.correct)
   })
-  if (shuffledQuestions.length > currentQuestionIndex + 1) {
+  if (nextQuestions.length > currentQuestionIndex + 1) {
     nextButton.classList.remove('hide')
   } else {
     startButton.innerText = 'Restart'
     startButton.classList.remove('hide')
+    resultsButton.classList.remove('hide')
   }
+  // add 1 score for correct
+  if (selectedButton.dataset = correct) {
+    countRightAnswers++;
+ }
+ // span will show the score
+ document.getElementById('right-answers').innerHTML = countRightAnswers + ' Correct!'; 
 }
 
 function setStatusClass(element, correct) {
-  clearStatusClass(element)
-  if (correct) {
-    element.classList.add('correct')
-  } else {
-    element.classList.add('wrong')
-  }
-}
+   clearStatusClass(element)
+   if (correct) {
+     element.classList.add('correct')
+   } else {
+     element.classList.add('wrong')
+   }
+ }
 
-function clearStatusClass(element) {
-  element.classList.remove('correct')
-  element.classList.remove('wrong')
-}
+ function clearStatusClass(element) {
+   element.classList.remove('correct')
+   element.classList.remove('wrong')
+ }
+
 // Quiz Questions
 const questions = [
   {
@@ -85,7 +106,7 @@ const questions = [
       { text: '<js>', correct: false },
       { text: '<scripting>', correct: false },
       { text: '<script>', correct: true },
-      { text: 'javascript>', correct: false }
+      { text: '<javascript>', correct: false }
     ]
   },
   {
@@ -124,20 +145,7 @@ const questions = [
   },
 ]
 
-//Timer Element
-  // var count = 30;
-  // var interval = setInterval(function(){
-  //  document.getElementById('timer').innerHTML=count;
-  //   count--;
-  //   if (count === 0){
-  //    clearInterval(interval);
-  //    document.getElementById('timer').innerHTML='Times';
-  //    // or...
-  //    alert("You're out of time! Please restart");
-  //   }
-  // }, 1000);
-
-  //Timer Element 2
+  //Timer Element 
   var count = 30;
   var timeIntervalUp;
 
@@ -150,7 +158,7 @@ const questions = [
 			
              if (count == 0) {
                 clearInterval(timeIntervalUp);
-                document.getElementById('timer').innerHTML='Times';
-                alert("You're out of time! Please restart");
+                document.getElementById('timer').innerHTML='Times up!';
             }
         }
+
